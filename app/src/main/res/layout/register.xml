@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+android:layout_width="fill_parent"
+android:layout_height="fill_parent"
+android:orientation="vertical">
+
+    <!-- View Title Label -->
+    <TextView
+        android:id="@+id/textViewRegister"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dip"
+        android:text="@string/register_title"
+        android:textSize="25sp"
+        android:textStyle="bold" />
+
+    <!-- Name Label -->
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/lbl_name" />
+
+    <!-- Name TextField -->
+    <EditText
+        android:id="@+id/editTextName"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/hint_name" />
+
+    <!-- First name Label -->
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/lbl_firstName" />
+
+    <!-- First name TextField -->
+    <EditText
+        android:id="@+id/editTextFirstName"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/hint_firstName" />
+
+
+    <!-- Email Label -->
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/lbl_mail" />
+
+    <!-- Email TextField -->
+    <EditText
+        android:id="@+id/editTextregisterMail"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/hint_mail"
+        android:inputType="textEmailAddress" />
+
+
+    <!-- Phone Label -->
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/lbl_phone" />
+
+    <!-- Phone TextField -->
+    <EditText
+        android:id="@+id/editTextPhone"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/hint_phone"/>
+
+    <!-- Password Label -->
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dip"
+        android:text="@string/lbl_password" />
+
+    <!-- Password TextField -->
+    <EditText
+        android:id="@+id/editTextPassword"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/hint_password"
+        android:inputType="textPassword" />
+
+    <!-- Error message -->
+
+    <TextView
+        android:id="@+id/editTextError"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="10dip"
+        android:textColor="#e30000"
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/btnRegister"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dip"
+        android:background="#ff6347"
+        android:onClick="registerUser"
+        android:text="@string/lbl_btnRegister"
+        android:textColor="#fff" />
+
+</LinearLayout>

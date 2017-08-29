@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical">
+
+    <!-- Title label -->
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/lbl_advert_title" />
+
+    <!-- Title textField -->
+    <EditText
+        android:id="@+id/editText_advert_title"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:inputType="text"
+        android:hint="@string/hint_advert_title" />
+
+    <!-- Description label -->
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/lbl_advert_description" />
+
+    <!-- Description TextField -->
+    <EditText
+        android:id="@+id/editText_advert_description"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textMultiLine"
+        android:lines="5"
+        android:scrollHorizontally="false"
+        android:hint="@string/hint_advert_description" />
+
+    <!-- Price Label -->
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/lbl_advert_price" />
+
+    <!-- Price TextField -->
+    <EditText
+        android:id="@+id/editText_advert_price"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:hint="@string/hint_advert_price"/>
+
+    <!-- Error message -->
+    <TextView
+        android:id="@+id/textView_advert_error"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="10dip"
+        android:textColor="#e30000"
+        android:textStyle="bold" />
+
+
+    <!-- Button publish advertDTO -->
+    <Button
+        android:id="@+id/btn_advert_publish"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/lbl_advert_publish_advert" />
+
+    <!-- Button cancel -->
+    <Button
+        android:id="@+id/btn_advert_cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/lbl_advert_cancel" />
+
+</LinearLayout>
