@@ -16,37 +16,35 @@ public class VolleySingleton {
     public static final String TAG = VolleySingleton.class.getSimpleName();
 
     private RequestQueue mRequestQueue;
-    private static Context context;
-
     private static VolleySingleton mInstance;
 
-    private VolleySingleton(Context context) {
-        this.context = context;
-        mRequestQueue = getRequestQueue();
-    }
-
-    public static synchronized VolleySingleton getInstance(Context context) {
+    public static synchronized VolleySingleton getInstance() {
         if (mInstance == null) {
-            mInstance = new VolleySingleton(context);
+            mInstance = new VolleySingleton();
         }
         return mInstance;
     }
 
-    public RequestQueue getRequestQueue() {
+    private VolleySingleton() {
+
+    }
+
+    public RequestQueue getRequestQueue(Context context) {
         if (mRequestQueue == null) {
             mRequestQueue = Volley.newRequestQueue(context.getApplicationContext());
         }
         return mRequestQueue;
     }
 
-    public <T> void addToRequestQueue(Request<T> request, String tag) {
+
+    public <T> void addToRequestQueue(Request<T> request, Context context, String tag) {
         request.setTag(TextUtils.isEmpty(tag) ? TAG : tag);
-        getRequestQueue().add(request);
+        getRequestQueue(context).add(request);
     }
 
-    public <T> void addToRequestQueue(Request<T> request) {
+    public <T> void addToRequestQueue(Request<T> request, Context context) {
         request.setTag(TAG);
-        getRequestQueue().add(request);
+        getRequestQueue(context).add(request);
     }
 
     public void cancelPendingRequests(Object tag) {

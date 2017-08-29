@@ -1,29 +1,34 @@
 package com.syscom.apps.myapps.activities;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-
-import com.android.volley.AuthFailureError;
-import com.android.volley.NetworkResponse;
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
+import android.widget.Toast;
 import com.google.gson.Gson;
 import com.syscom.apps.myapps.R;
-import com.syscom.apps.myapps.VolleySingleton;
 import com.syscom.apps.myapps.activities.secured.DashBoardActivity;
 import com.syscom.apps.myapps.domains.Session;
-import com.syscom.apps.myapps.domains.TokenDTO;
-import com.syscom.apps.myapps.rest.GsonRequest;
+import com.syscom.apps.myapps.domains.webservices.TokenDTO;
 import com.syscom.apps.myapps.utilities.MyAppsUtility;
 import com.syscom.apps.myapps.utilities.WebServiceUtils;
-import java.io.UnsupportedEncodingException;
+import org.springframework.http.HttpAuthentication;
+import org.springframework.http.HttpBasicAuthentication;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.ResourceAccessException;
+import org.springframework.web.client.RestTemplate;
+import java.util.Collections;
 import static android.text.TextUtils.isEmpty;
 import static com.syscom.apps.myapps.utilities.Constants.SESSION;
 import static com.syscom.apps.myapps.utilities.Constants.TOKEN;
@@ -36,6 +41,8 @@ import static com.syscom.apps.myapps.utilities.SharedPreferencesUtils.saveToShar
  * @author Eric LEGBA
  */
 public class LoginActivity extends AppCompatActivity {
+
+    protected static final String TAG = LoginActivity.class.getSimpleName();
 
     private EditText editTextMail = null;
     private EditText editTextPassword = null;
@@ -55,7 +62,6 @@ public class LoginActivity extends AppCompatActivity {
         editTextPassword = (EditText)findViewById(R.id.editTextPassword);
         textViewLoginError = (TextView) findViewById(R.id.textViewLoginError);
         editTextTitleMsg = (TextView) findViewById(R.id.titleMessage);
-        btnLogin.setOnClickListener(onclickBtnLogin);
         btnLoginRegister.setOnClickListener(onclickBtnLoginRegister);
         Intent intent = getIntent();
         String action = intent.getAction();
@@ -65,8 +71,8 @@ public class LoginActivity extends AppCompatActivity {
                 editTextTitleMsg.setText(sharedText);
             }
         }
+        btnLogin.setOnClickListener(onclickBtnLogin);
     }
-
 
     /**
      *
@@ -79,7 +85,6 @@ public class LoginActivity extends AppCompatActivity {
         }
     };
 
-
     /**
      *
      */
@@ -88,79 +93,79 @@ public class LoginActivity extends AppCompatActivity {
         public void onClick(View v) {
             textViewLoginError.setText(MyAppsUtility.EMPTY);
             editTextTitleMsg.setText(getString(R.string.login_title));
-            int error = validInputData();
-            if(error==0){
-                String mail = editTextMail.getText().toString();
-                String password = editTextPassword.getText().toString();
-                String credentials = String.format("%s:%s",mail,password);
-                final String encodedCredentials = Base64.encodeToString(credentials.getBytes(), Base64.DEFAULT);
-//                Call Web Service for authentication
-                GsonRequest<TokenDTO> loginRequest = new GsonRequest<TokenDTO>(
-                        Request.Method.POST,
-                        WebServiceUtils.LOGIN_API,
-                        TokenDTO.class,
-                        null,
-                        onRequestSuccessListener(),
-                        onRequestErrorListener()
-                ){
-                    @Override
-                    public byte[] getBody() throws AuthFailureError {
-                        try {
-                            return encodedCredentials == null ? null : encodedCredentials.getBytes(WebServiceUtils.UTF8_ENCODING);
-                        } catch (UnsupportedEncodingException uee) {
-                            return null;
-                        }
-                    }
-                };
-                VolleySingleton.getInstance(getApplicationContext()).addToRequestQueue(loginRequest);
-
+            if(validInputData()>0){
+                return;
             }
+            new FetchSecuredResourceTask().execute();
         }
     };
 
-    private Response.Listener<TokenDTO> onRequestSuccessListener() {
-        return new Response.Listener<TokenDTO>() {
-            @Override
-            public void onResponse(TokenDTO response) {
-                Gson gson = new Gson();
-                Session session = new Session(response,true);
-                String sessionValue = gson.toJson(session, Session.class);
-//                    Save tokenDTO into SharedPreferences
-                saveToSharedPreferences(getApplicationContext(), TOKEN,gson.toJson(response,TokenDTO.class));
-//                    Save tokenDTO into SharedPreferences
-                saveToSharedPreferences(getApplicationContext(), SESSION,sessionValue);
-//                      Start dashboard activity
-                Intent dashboardIntenet = new Intent(getApplicationContext(),DashBoardActivity.class);
-                startActivity(dashboardIntenet);
+    // ***************************************
+    // Private classes
+    // ***************************************
+    private class FetchSecuredResourceTask extends AsyncTask<Void, Void, TokenDTO> {
+
+        private String username;
+        private String password;
+
+        @Override
+        protected void onPreExecute() {
+            // build the message object
+            this.username = editTextMail.getText().toString();
+            this.password = editTextPassword.getText().toString();
+        }
+
+        @Override
+        protected TokenDTO doInBackground(Void... params) {
+            // Populate the HTTP Basic Authentitcation header with the username and password
+            HttpAuthentication authHeader = new HttpBasicAuthentication(username, password);
+            HttpHeaders requestHeaders = new HttpHeaders();
+            requestHeaders.setAuthorization(authHeader);
+            requestHeaders.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+            requestHeaders.setContentType(MediaType.APPLICATION_JSON);
+            // Create a new RestTemplate instance
+            RestTemplate restTemplate = new RestTemplate();
+            restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
+            try {
+                // Make the network request
+                Log.d(TAG, WebServiceUtils.LOGIN_API);
+                ResponseEntity<TokenDTO> response = restTemplate.exchange(WebServiceUtils.LOGIN_API, HttpMethod.POST, new HttpEntity<Object>(requestHeaders), TokenDTO.class);
+                return response.getBody();
+            } catch (HttpClientErrorException e) {
+                Log.e(TAG, e.getLocalizedMessage(), e);
+                return new TokenDTO(e.getLocalizedMessage());
+//                return new Message(e.getStatusText(), e.getLocalizedMessage());
+            } catch (ResourceAccessException e) {
+                Log.e(TAG, e.getLocalizedMessage(), e);
+                return new TokenDTO(e.getLocalizedMessage());
+//                return new Message(e.getClass().getSimpleName(), e.getLocalizedMessage());
             }
-        };
+        }
+
+        @Override
+        protected void onPostExecute(TokenDTO tokenDTO) {
+            if(tokenDTO.getErrorMessage()!=null){
+                showErrorResponse(tokenDTO.getErrorMessage());
+                return;
+            }
+            Session session = new Session(tokenDTO,true);
+            Gson gson = new Gson();
+            String sessionValue = gson.toJson(session, Session.class);
+//                    Save tokenDTO into SharedPreferences
+            saveToSharedPreferences(getApplicationContext(), TOKEN,gson.toJson(tokenDTO,TokenDTO.class));
+//                    Save tokenDTO into SharedPreferences
+            saveToSharedPreferences(getApplicationContext(), SESSION,sessionValue);
+//                      Start dashboard activity
+            Intent dashboardIntenet = new Intent(getApplicationContext(),DashBoardActivity.class);
+            startActivity(dashboardIntenet);
+        }
     }
 
-    private Response.ErrorListener onRequestErrorListener() {
-        return new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                NetworkResponse response = error.networkResponse;
-                switch(response.statusCode) {
-                    case 400:
-                    case 403:
-                        String erroMessage = new String(response.data);
-                        textViewLoginError.setText(erroMessage);
-                        break;
-                    case 500:
-                    case 501:
-                    case 502:
-                    case 503:
-                    case 504:
-                    case 505:
-                        textViewLoginError.setText(getString(R.string.error_server_500));
-                        break;
-                    default:
-                        textViewLoginError.setText(getString(R.string.unexpected_error_server));
-                        break;
-                }
-            }
-        };
+    // ***************************************
+    // Private methods
+    // ***************************************
+    private void showErrorResponse(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
     }
 
 

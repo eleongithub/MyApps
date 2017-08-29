@@ -1,10 +1,8 @@
-package com.syscom.apps.myapps.domains;
+package com.syscom.apps.myapps.domains.webservices;
 
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  *Classe représentant une annonce

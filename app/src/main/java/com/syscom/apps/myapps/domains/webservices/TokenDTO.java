@@ -1,6 +1,5 @@
-package com.syscom.apps.myapps.domains;
+package com.syscom.apps.myapps.domains.webservices;
 
-import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 
 /**
@@ -8,16 +7,21 @@ import java.io.Serializable;
  * Created by Eric LEGBA on 26/02/17.
  *@author Eric LEGBA
  */
-public class TokenDTO implements Serializable {
+public class TokenDTO extends BaseDTO {
 
-    @SerializedName("value")
     private String value;
 
-    @SerializedName("expiration")
     private String expiration;
 
-    @SerializedName("customerDTO")
     private CustomerDTO customerDTO;
+
+    public TokenDTO(){
+
+    }
+
+    public TokenDTO(String errorMessage){
+        this.errorMessage = errorMessage;
+    }
 
     public String getValue() {
         return value;

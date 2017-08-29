@@ -1,6 +1,7 @@
 package com.syscom.apps.myapps.domains;
 
 import com.google.gson.annotations.SerializedName;
+import com.syscom.apps.myapps.domains.webservices.TokenDTO;
 
 import java.io.Serializable;
 

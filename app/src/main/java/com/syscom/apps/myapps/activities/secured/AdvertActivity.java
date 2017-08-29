@@ -8,19 +8,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.android.volley.AuthFailureError;
+
 import com.android.volley.NetworkResponse;
-import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.google.gson.Gson;
 import com.syscom.apps.myapps.R;
-import com.syscom.apps.myapps.VolleySingleton;
-import com.syscom.apps.myapps.domains.AdvertDTO;
-import com.syscom.apps.myapps.domains.CustomerDTO;
-import com.syscom.apps.myapps.rest.GsonRequest;
-import com.syscom.apps.myapps.utilities.WebServiceUtils;
-import java.io.UnsupportedEncodingException;
+
 import static android.text.TextUtils.isEmpty;
 
 /**
@@ -61,34 +54,36 @@ public class AdvertActivity extends SecuredActivity {
         @Override
         public void onClick(View v) {
             int error = validInputData();
-            if (error == 0) {
-                String advertTile = title.getText().toString();
-                String advertDescription = description.getText().toString();
-                float advertPrice = Float.parseFloat(price.getText().toString());
-                CustomerDTO customerDTO = tokenDTO.getCustomerDTO();
-                AdvertDTO advertDTO = new AdvertDTO(advertTile, advertDescription, advertPrice, customerDTO);
-                Gson gson = new Gson();
-                final String json = gson.toJson(advertDTO);
-
-                GsonRequest<String> createAdvertRequest = new GsonRequest<String>(
-                        Request.Method.POST,
-                        WebServiceUtils.ADD_ADVERT_API,
-                        String.class,
-                        buildSecuredHeaders(),
-                        onRequestSuccessListener(),
-                        onRequestErrorListener()
-                ){
-                    @Override
-                    public byte[] getBody() throws AuthFailureError {
-                        try {
-                            return json == null ? null : json.getBytes(WebServiceUtils.UTF8_ENCODING);
-                        } catch (UnsupportedEncodingException uee) {
-                            return null;
-                        }
-                    }
-                };
-                VolleySingleton.getInstance(getApplicationContext()).addToRequestQueue(createAdvertRequest);
+            if (validInputData() > 0) {
+                return;
             }
+
+            String advertTile = title.getText().toString();
+            String advertDescription = description.getText().toString();
+            float advertPrice = Float.parseFloat(price.getText().toString());
+//            CustomerDTO customerDTO = tokenDTO.getCustomerDTO();
+//            AdvertDTO advertDTO = new AdvertDTO(advertTile, advertDescription, advertPrice, customerDTO);
+//            Gson gson = new Gson();
+//            final String json = gson.toJson(advertDTO);
+//
+//            GsonRequest<String> createAdvertRequest = new GsonRequest<String>(
+//                    Request.Method.POST,
+//                    WebServiceUtils.ADD_ADVERT_API,
+//                    String.class,
+//                    buildSecuredHeaders(),
+//                    onRequestSuccessListener(),
+//                    onRequestErrorListener()
+//            ) {
+//                @Override
+//                public byte[] getBody() throws AuthFailureError {
+//                    try {
+//                        return json == null ? null : json.getBytes(WebServiceUtils.UTF8_ENCODING);
+//                    } catch (UnsupportedEncodingException uee) {
+//                        return null;
+//                    }
+//                }
+//            };
+//            VolleySingleton.getInstance().addToRequestQueue(createAdvertRequest, getApplicationContext());
         }
 
 

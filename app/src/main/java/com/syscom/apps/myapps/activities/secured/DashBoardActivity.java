@@ -28,7 +28,7 @@ public class DashBoardActivity extends SecuredActivity {
         textViewName = (TextView) findViewById(R.id.name);
         btnCreateAdvice = (Button)findViewById(R.id.btnCreateAdvice);
         btnLogout = (Button) findViewById(R.id.btnLogout);
-        textViewName.setText(tokenDTO.getCustomerDTO().getName());
+//        textViewName.setText(tokenDTO.getCustomerDTO().getName()); TODO
         btnLogout.setOnClickListener(onclickBtnLogout);
         btnCreateAdvice.setOnClickListener(onclickBtnCreateAdvert);
 

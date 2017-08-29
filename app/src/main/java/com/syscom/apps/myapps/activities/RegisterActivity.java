@@ -16,7 +16,7 @@ import com.android.volley.VolleyError;
 import com.google.gson.Gson;
 import com.syscom.apps.myapps.R;
 import com.syscom.apps.myapps.VolleySingleton;
-import com.syscom.apps.myapps.domains.CustomerDTO;
+import com.syscom.apps.myapps.domains.webservices.CustomerDTO;
 import com.syscom.apps.myapps.rest.GsonRequest;
 import com.syscom.apps.myapps.utilities.MyAppsUtility;
 import com.syscom.apps.myapps.utilities.WebServiceUtils;
@@ -93,7 +93,7 @@ public class RegisterActivity extends AppCompatActivity {
                         }
                     }
                 };
-                VolleySingleton.getInstance(getApplicationContext()).addToRequestQueue(registerRequest);
+                VolleySingleton.getInstance().addToRequestQueue(registerRequest,getApplicationContext());
             }
         }
 
