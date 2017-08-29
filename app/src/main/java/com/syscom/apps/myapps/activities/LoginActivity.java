@@ -4,12 +4,14 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.google.gson.Gson;
 import com.syscom.apps.myapps.R;
 import com.syscom.apps.myapps.activities.secured.DashBoardActivity;
@@ -17,8 +19,7 @@ import com.syscom.apps.myapps.domains.Session;
 import com.syscom.apps.myapps.domains.webservices.TokenDTO;
 import com.syscom.apps.myapps.utilities.MyAppsUtility;
 import com.syscom.apps.myapps.utilities.WebServiceUtils;
-import org.springframework.http.HttpAuthentication;
-import org.springframework.http.HttpBasicAuthentication;
+
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -28,7 +29,9 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
+
 import java.util.Collections;
+
 import static android.text.TextUtils.isEmpty;
 import static com.syscom.apps.myapps.utilities.Constants.SESSION;
 import static com.syscom.apps.myapps.utilities.Constants.TOKEN;
@@ -119,25 +122,27 @@ public class LoginActivity extends AppCompatActivity {
         @Override
         protected TokenDTO doInBackground(Void... params) {
             // Populate the HTTP Basic Authentitcation header with the username and password
-            HttpAuthentication authHeader = new HttpBasicAuthentication(username, password);
+            String credentials = String.format("%s:%s",username,password);
             HttpHeaders requestHeaders = new HttpHeaders();
-            requestHeaders.setAuthorization(authHeader);
             requestHeaders.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
             requestHeaders.setContentType(MediaType.APPLICATION_JSON);
             // Create a new RestTemplate instance
             RestTemplate restTemplate = new RestTemplate();
             restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
             try {
+                String encodedCredentials = new String(Base64.encode(credentials.getBytes(), Base64.NO_WRAP));
+                HttpEntity<String> requestEntity = new HttpEntity<>(encodedCredentials, requestHeaders);
                 // Make the network request
                 Log.d(TAG, WebServiceUtils.LOGIN_API);
-                ResponseEntity<TokenDTO> response = restTemplate.exchange(WebServiceUtils.LOGIN_API, HttpMethod.POST, new HttpEntity<Object>(requestHeaders), TokenDTO.class);
+                ResponseEntity<TokenDTO> response = restTemplate.exchange(WebServiceUtils.LOGIN_API, HttpMethod.POST, requestEntity, TokenDTO.class);
                 return response.getBody();
             } catch (HttpClientErrorException e) {
-                Log.e(TAG, e.getLocalizedMessage(), e);
-                return new TokenDTO(e.getLocalizedMessage());
+                Log.e(TAG, e.getResponseBodyAsString(), e);
+                return new TokenDTO(e.getResponseBodyAsString());
             } catch (ResourceAccessException e) {
-                Log.e(TAG, e.getLocalizedMessage(), e);
-                return new TokenDTO(e.getLocalizedMessage());
+                Log.e(TAG, e.getMessage(), e);
+                System.out.println(e.getMessage());
+                return new TokenDTO(e.getMessage());
             }
         }
 

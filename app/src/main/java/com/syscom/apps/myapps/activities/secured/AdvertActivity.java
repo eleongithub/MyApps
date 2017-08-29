@@ -1,7 +1,5 @@
 package com.syscom.apps.myapps.activities.secured;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -9,9 +7,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.NetworkResponse;
 import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.syscom.apps.myapps.R;
 
 import static android.text.TextUtils.isEmpty;
@@ -45,7 +41,7 @@ public class AdvertActivity extends SecuredActivity {
         btnPublish = (Button) findViewById(R.id.btn_advert_publish);
         btnPublish.setOnClickListener(onclickBtnPublish);
         btnCancel = (Button) findViewById(R.id.btn_advert_cancel);
-        btnCancel.setOnClickListener(onclickBtnCancel);
+//        btnCancel.setOnClickListener(onclickBtnCancel);
     }
 
 
@@ -53,7 +49,6 @@ public class AdvertActivity extends SecuredActivity {
     private View.OnClickListener onclickBtnPublish = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            int error = validInputData();
             if (validInputData() > 0) {
                 return;
             }
@@ -61,29 +56,6 @@ public class AdvertActivity extends SecuredActivity {
             String advertTile = title.getText().toString();
             String advertDescription = description.getText().toString();
             float advertPrice = Float.parseFloat(price.getText().toString());
-//            CustomerDTO customerDTO = tokenDTO.getCustomerDTO();
-//            AdvertDTO advertDTO = new AdvertDTO(advertTile, advertDescription, advertPrice, customerDTO);
-//            Gson gson = new Gson();
-//            final String json = gson.toJson(advertDTO);
-//
-//            GsonRequest<String> createAdvertRequest = new GsonRequest<String>(
-//                    Request.Method.POST,
-//                    WebServiceUtils.ADD_ADVERT_API,
-//                    String.class,
-//                    buildSecuredHeaders(),
-//                    onRequestSuccessListener(),
-//                    onRequestErrorListener()
-//            ) {
-//                @Override
-//                public byte[] getBody() throws AuthFailureError {
-//                    try {
-//                        return json == null ? null : json.getBytes(WebServiceUtils.UTF8_ENCODING);
-//                    } catch (UnsupportedEncodingException uee) {
-//                        return null;
-//                    }
-//                }
-//            };
-//            VolleySingleton.getInstance().addToRequestQueue(createAdvertRequest, getApplicationContext());
         }
 
 
@@ -120,65 +92,6 @@ public class AdvertActivity extends SecuredActivity {
             };
         }
 
-        private Response.ErrorListener onRequestErrorListener() {
-            return new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    NetworkResponse response = error.networkResponse;
-                    if(response == null ){
-                        startLoginActivity();
-                        return;
-                    }
-                    switch(response.statusCode) {
-                        case 401:
-                            startLoginActivity();
-                            break;
-                        case 400:
-                        case 403:
-                            if (response.data != null) {
-                                String erroMessage = new String(response.data);
-                                textViewError.setText(erroMessage);
-                            }else{
-                                textViewError.setText(getString(R.string.error_bad_request));
-                            }
-                            break;
-                        case 500:
-                        case 501:
-                        case 502:
-                        case 503:
-                        case 504:
-                        case 505:
-                            textViewError.setText(getString(R.string.error_server_500));
-                            break;
-                        default:
-                            textViewError.setText(getString(R.string.unexpected_error_server));
-                            break;
-                    }
-                }
-            };
-        }
-    };
-
-
-    private View.OnClickListener onclickBtnCancel = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(AdvertActivity.this);
-            alertDialogBuilder.setTitle(getString(R.string.advert_cancel_dialog_title));
-            alertDialogBuilder.setMessage(getString(R.string.advert_cancel_dialog_message));
-            alertDialogBuilder.setPositiveButton(R.string.lbl_btn_yes, new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int id) {
-                    startDashboardActivity();
-                }
-            });
-            alertDialogBuilder.setNegativeButton(R.string.lbl_btn_no, new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int id) {
-                    dialog.cancel();
-                }
-            });
-            AlertDialog alertDialog = alertDialogBuilder.create();
-            alertDialog.show();
-        }
     };
 
 }
