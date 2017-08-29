@@ -96,14 +96,14 @@ public class LoginActivity extends AppCompatActivity {
             if(validInputData()>0){
                 return;
             }
-            new FetchSecuredResourceTask().execute();
+            new FetchLoginTask().execute();
         }
     };
 
     // ***************************************
     // Private classes
     // ***************************************
-    private class FetchSecuredResourceTask extends AsyncTask<Void, Void, TokenDTO> {
+    private class FetchLoginTask extends AsyncTask<Void, Void, TokenDTO> {
 
         private String username;
         private String password;
@@ -134,11 +134,9 @@ public class LoginActivity extends AppCompatActivity {
             } catch (HttpClientErrorException e) {
                 Log.e(TAG, e.getLocalizedMessage(), e);
                 return new TokenDTO(e.getLocalizedMessage());
-//                return new Message(e.getStatusText(), e.getLocalizedMessage());
             } catch (ResourceAccessException e) {
                 Log.e(TAG, e.getLocalizedMessage(), e);
                 return new TokenDTO(e.getLocalizedMessage());
-//                return new Message(e.getClass().getSimpleName(), e.getLocalizedMessage());
             }
         }
 
@@ -151,11 +149,11 @@ public class LoginActivity extends AppCompatActivity {
             Session session = new Session(tokenDTO,true);
             Gson gson = new Gson();
             String sessionValue = gson.toJson(session, Session.class);
-//                    Save tokenDTO into SharedPreferences
+//          Save tokenDTO into SharedPreferences
             saveToSharedPreferences(getApplicationContext(), TOKEN,gson.toJson(tokenDTO,TokenDTO.class));
-//                    Save tokenDTO into SharedPreferences
+//          Save tokenDTO into SharedPreferences
             saveToSharedPreferences(getApplicationContext(), SESSION,sessionValue);
-//                      Start dashboard activity
+//          Start dashboard activity
             Intent dashboardIntenet = new Intent(getApplicationContext(),DashBoardActivity.class);
             startActivity(dashboardIntenet);
         }
