@@ -2,15 +2,12 @@ package com.syscom.apps.myapps.activities.secured;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
@@ -23,18 +20,7 @@ import com.syscom.apps.myapps.domains.AdvertDTO;
 import com.syscom.apps.myapps.domains.CustomerDTO;
 import com.syscom.apps.myapps.rest.GsonRequest;
 import com.syscom.apps.myapps.utilities.WebServiceUtils;
-
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
-import org.springframework.web.client.RestTemplate;
-
 import java.io.UnsupportedEncodingException;
-
 import static android.text.TextUtils.isEmpty;
 
 /**
@@ -69,59 +55,6 @@ public class AdvertActivity extends SecuredActivity {
         btnCancel.setOnClickListener(onclickBtnCancel);
     }
 
-
-    // ***************************************
-    // Private classes
-    // ***************************************
-    private class PostMessageTask extends AsyncTask<Void, Void, String> {
-
-        @Override
-        protected String doInBackground(Void... params) {
-            try {
-                HttpHeaders requestHeaders = new HttpHeaders();
-                requestHeaders.setContentType(MediaType.MULTIPART_FORM_DATA);
-                requestHeaders.add(WebServiceUtils.AUTHORIZATION, tokenDTO.getValue());
-
-                // Create a new RestTemplate instance
-                RestTemplate restTemplate = new RestTemplate(true);
-
-                MultiValueMap<String, Object> datas = new LinkedMultiValueMap<>();
-                datas.add("expenseId", 1);
-                datas.add("advertTile", "advertTile");
-                datas.add("advertDescription", "advertDescription");
-                datas.add("advertPrice", 150);
-//                datas.add("customer", new FileSystemResource(absolutePath));
-
-//                String advertTile = title.getText().toString();
-//                String advertDescription = description.getText().toString();
-//                float advertPrice = Float.parseFloat(price.getText().toString());
-//                CustomerDTO customer = tokenDTO.getCustomerDTO();
-//                AdvertDTO advert = new AdvertDTO(advertTile, advertDescription, advertPrice, customer);
-
-                // Populate the MultiValueMap being serialized and headers in an HttpEntity object to use for the request
-                HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<MultiValueMap<String, Object>>(
-                        datas, requestHeaders);
-
-
-                // Make the network request, posting the message, expecting a String in response from the server
-                ResponseEntity<String> response = restTemplate.exchange(WebServiceUtils.ADD_ADVERT_API, HttpMethod.POST, requestEntity,
-                        String.class);
-
-                // Return the response body to display to the user
-                return response.getBody();
-            } catch (Exception e) {
-                Log.e("", e.getMessage(), e);
-            }
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            Toast.makeText(AdvertActivity.this, "Data : "+result, Toast.LENGTH_LONG).show();
-        }
-
-    }
 
 
     private View.OnClickListener onclickBtnPublish = new View.OnClickListener() {
