@@ -141,11 +141,9 @@ public class LoginActivity extends AppCompatActivity {
                 return new TokenDTO(e.getResponseBodyAsString());
             } catch (ResourceAccessException e) {
                 Log.e(TAG, e.getMessage(), e);
-                System.out.println(e.getMessage());
                 return new TokenDTO(e.getMessage());
             }
         }
-
         @Override
         protected void onPostExecute(TokenDTO tokenDTO) {
             if(tokenDTO.getErrorMessage()!=null){

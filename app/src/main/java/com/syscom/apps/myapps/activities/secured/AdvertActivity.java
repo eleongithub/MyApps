@@ -5,9 +5,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.android.volley.Response;
 import com.syscom.apps.myapps.R;
 
 import static android.text.TextUtils.isEmpty;
@@ -52,46 +50,32 @@ public class AdvertActivity extends SecuredActivity {
             if (validInputData() > 0) {
                 return;
             }
-
-            String advertTile = title.getText().toString();
-            String advertDescription = description.getText().toString();
-            float advertPrice = Float.parseFloat(price.getText().toString());
-        }
-
-
-        private int validInputData(){
-            int error = 0;
-
-            title = (EditText) findViewById(R.id.editText_advert_title);
-            description = (EditText) findViewById(R.id.editText_advert_description);
-            price = (EditText) findViewById(R.id.editText_advert_price);
-
-            if(isEmpty(title.getText().toString())){
-                title.setError(getString(R.string.error_advert_title));
-                error++;
-            }
-
-            if(isEmpty(description.getText().toString())){
-                description.setError(getString(R.string.error_advert_description));
-                error++;
-            }
-
-            if(isEmpty(price.getText().toString())){
-                price.setError(getString(R.string.error_advert_price));
-                error++;
-            }
-            return error;
-        }
-
-        private Response.Listener<String> onRequestSuccessListener() {
-            return new Response.Listener<String>() {
-                @Override
-                public void onResponse(String response) {
-                    Toast.makeText(getApplicationContext(), "AdvertDTO is recorded. response is :"+response, Toast.LENGTH_LONG).show();
-                };
-            };
         }
 
     };
+
+    private int validInputData(){
+        int error = 0;
+
+        title = (EditText) findViewById(R.id.editText_advert_title);
+        description = (EditText) findViewById(R.id.editText_advert_description);
+        price = (EditText) findViewById(R.id.editText_advert_price);
+
+        if(isEmpty(title.getText().toString())){
+            title.setError(getString(R.string.error_advert_title));
+            error++;
+        }
+
+        if(isEmpty(description.getText().toString())){
+            description.setError(getString(R.string.error_advert_description));
+            error++;
+        }
+
+        if(isEmpty(price.getText().toString())){
+            price.setError(getString(R.string.error_advert_price));
+            error++;
+        }
+        return error;
+    }
 
 }
