@@ -14,7 +14,7 @@ import static com.syscom.apps.myapps.utilities.SharedPreferencesUtils.removeFrom
  * Dashboard activity
  * @author Eric LEGBA
  */
-
+@SuppressWarnings("squid:MaximumInheritanceDepth")
 public class DashBoardActivity extends SecuredActivity {
 
     private TextView textViewName = null;

@@ -21,7 +21,7 @@ import static android.text.TextUtils.isEmpty;
  *
  * @author Eric LEGBA
  */
-
+@SuppressWarnings("squid:MaximumInheritanceDepth")
 public class AdvertActivity extends SecuredActivity {
 
     private EditText title;

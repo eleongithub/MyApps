@@ -10,6 +10,7 @@ import com.syscom.apps.myapps.R;
  *
  * @author Eric LEGBA
  */
+@SuppressWarnings("squid:MaximumInheritanceDepth")
 public class MainActivity extends AppCompatActivity {
 
     @Override

@@ -40,6 +40,7 @@ import static com.syscom.apps.myapps.utilities.SharedPreferencesUtils.saveToShar
  *
  * @author Eric LEGBA
  */
+@SuppressWarnings("squid:MaximumInheritanceDepth")
 public class LoginActivity extends AppCompatActivity {
 
     protected static final String TAG = LoginActivity.class.getSimpleName();

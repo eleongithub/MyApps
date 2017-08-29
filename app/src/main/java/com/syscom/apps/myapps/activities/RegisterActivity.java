@@ -31,6 +31,7 @@ import static android.text.TextUtils.isEmpty;
  *
  * @author  Eric LEGBA
  */
+@SuppressWarnings("squid:MaximumInheritanceDepth")
 public class RegisterActivity extends AppCompatActivity {
 
     private EditText editTextName = null;
