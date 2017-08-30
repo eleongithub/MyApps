@@ -34,6 +34,7 @@ import static android.text.TextUtils.isEmpty;
  *
  * @author Eric LEGBA
  */
+@SuppressWarnings("squid:MaximumInheritanceDepth")
 public class AdvertActivity extends SecuredActivity {
 
     protected static final String TAG = AdvertActivity.class.getSimpleName();

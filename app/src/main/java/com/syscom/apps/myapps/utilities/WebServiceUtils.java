@@ -8,16 +8,11 @@ import com.syscom.apps.myapps.BuildConfig;
 
 public class WebServiceUtils {
 
-    public static final String UTF8_ENCODING = "UTF-8";
-
-    public static final String CONTENT_TYPE = "application/json; charset="+UTF8_ENCODING;
+    private WebServiceUtils() {
+        throw new IllegalAccessError("Utility class");
+    }
 
     public static final String AUTHORIZATION = "Authorization";
-
-
-    public static  final String API_BASE_URL = BuildConfig.API_BASE_URL;
-
-    public static final String VERSION = "v1";
 
     public static final String LOGIN_API = BuildConfig.API_LOGIN;
 

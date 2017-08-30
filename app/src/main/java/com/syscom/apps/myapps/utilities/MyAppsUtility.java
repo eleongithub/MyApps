@@ -9,6 +9,10 @@ import java.util.regex.Pattern;
  */
 public class MyAppsUtility {
 
+    private MyAppsUtility() {
+        throw new IllegalAccessError("Utility class");
+    }
+
     public static final String EMPTY = "";
     private static Pattern pattern;
     private static Matcher matcher;
