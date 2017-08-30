@@ -97,27 +97,6 @@ public class LoginActivity extends AppCompatActivity {
                 return;
             }
             new FetchLoginTask().execute();
-
-
-        }
-
-        /**
-         * Verfication des saisies clavier
-         *
-         * @return {@link int}
-         */
-        private int validInputData(){
-            int error = 0;
-            if(!isValideMail(editTextMail.getText().toString())){
-                editTextMail.setError(getString(R.string.error_mail));
-                error++;
-            }
-
-            if(isEmpty(editTextPassword.getText().toString())){
-                editTextPassword.setError(getString(R.string.error_enter_password));
-                error++;
-            }
-            return error;
         }
     };
 
@@ -182,6 +161,25 @@ public class LoginActivity extends AppCompatActivity {
     // ***************************************
     private void showErrorResponse(String message) {
         Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+    }
+
+    /**
+     * Verfication des saisies clavier
+     *
+     * @return {@link int}
+     */
+    private int validInputData(){
+        int error = 0;
+        if(!isValideMail(editTextMail.getText().toString())){
+            editTextMail.setError(getString(R.string.error_mail));
+            error++;
+        }
+
+        if(isEmpty(editTextPassword.getText().toString())){
+            editTextPassword.setError(getString(R.string.error_enter_password));
+            error++;
+        }
+        return error;
     }
 
 }

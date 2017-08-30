@@ -72,35 +72,6 @@ public class RegisterActivity extends AppCompatActivity {
             new FetchRegistrerTask().execute();
         }
 
-        /**
-         * Vérifier les données saisies au clavier.
-         *
-         * @return
-         */
-        private int validInputData(){
-            int error = 0;
-            if(isEmpty(editTextName.getText().toString())){
-                editTextName.setError(getString(R.string.error_name));
-                error++;
-            }
-            if(isEmpty(editTextFirstName.getText().toString())){
-                editTextFirstName.setError(getString(R.string.error_firstname));
-                error++;
-            }
-            if(!MyAppsUtility.isValideMail(editTextMail.getText().toString())){
-                editTextMail.setError(getString(R.string.error_mail));
-                error++;
-            }
-            if(isEmpty(editTextPhone.getText().toString())){
-                editTextPhone.setError(getString(R.string.error_phone));
-                error++;
-            }
-            if(isEmpty(editTextPassword.getText().toString())){
-                editTextPassword.setError(getString(R.string.error_password));
-                error++;
-            }
-            return error;
-        }
     };
 
      /**
@@ -178,5 +149,35 @@ public class RegisterActivity extends AppCompatActivity {
             loginIntenet.putExtra(Intent.EXTRA_TEXT, getString(R.string.register_success_message));
             startActivity(loginIntenet);
         }
+    }
+
+    /**
+     * Vérifier les données saisies au clavier.
+     *
+     * @return
+     */
+    private int validInputData(){
+        int error = 0;
+        if(isEmpty(editTextName.getText().toString())){
+            editTextName.setError(getString(R.string.error_name));
+            error++;
+        }
+        if(isEmpty(editTextFirstName.getText().toString())){
+            editTextFirstName.setError(getString(R.string.error_firstname));
+            error++;
+        }
+        if(!MyAppsUtility.isValideMail(editTextMail.getText().toString())){
+            editTextMail.setError(getString(R.string.error_mail));
+            error++;
+        }
+        if(isEmpty(editTextPhone.getText().toString())){
+            editTextPhone.setError(getString(R.string.error_phone));
+            error++;
+        }
+        if(isEmpty(editTextPassword.getText().toString())){
+            editTextPassword.setError(getString(R.string.error_password));
+            error++;
+        }
+        return error;
     }
 }
