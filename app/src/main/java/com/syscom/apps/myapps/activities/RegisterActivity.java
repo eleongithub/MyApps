@@ -28,7 +28,7 @@ import static android.text.TextUtils.isEmpty;
 
 /**
  *
- * Activity to register user
+ * Activity pour enregister un nouvel utilisateur
  *
  * @author  Eric LEGBA
  */
@@ -69,14 +69,17 @@ public class RegisterActivity extends AppCompatActivity {
         }
     };
 
-    // ***************************************
-    // Private classe to call Web Service API for register
-    // ***************************************
+     /**
+     * Classe privée pour gérer les appels web Service API afin d'enregistrer un nouvel utilisateur
+     */
     private class FetchRegistrerTask extends AsyncTask<Void, Void, String> {
 
         private CustomerDTO customerDTO;
         private boolean error;
 
+        /**
+         * Préparation des données nécessaires à la requete HTTP vers le Web Service.
+         */
         @Override
         protected void onPreExecute() {
             // build the message object
@@ -94,20 +97,26 @@ public class RegisterActivity extends AppCompatActivity {
                                          .build();
         }
 
+        /**
+         * Méthode pour effectuer l'appel Web service proprement dit.
+         * @param params
+         * @return
+         */
         @Override
         protected String doInBackground(Void... params) {
             HttpHeaders requestHeaders = new HttpHeaders();
             requestHeaders.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
             requestHeaders.setContentType(MediaType.APPLICATION_JSON);
             HttpEntity<CustomerDTO> requestEntity = new HttpEntity<CustomerDTO>(customerDTO, requestHeaders);
-            // Create a new RestTemplate instance
+            // Créer une instance Resttemplate.
             RestTemplate restTemplate = new RestTemplate();
             restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
             restTemplate.getMessageConverters().add(new StringHttpMessageConverter());
             try {
-                // Make the network request
+                // Appel Web Service.
                 Log.d(TAG, WebServiceUtils.REGISTER_API);
                 ResponseEntity<String> responseEntity = restTemplate.exchange(WebServiceUtils.REGISTER_API, HttpMethod.POST, requestEntity, String.class);
+                error = false;
                 return responseEntity.getBody();
             } catch (HttpClientErrorException e) {
                 Log.e(TAG, e.getResponseBodyAsString(), e);
@@ -120,6 +129,11 @@ public class RegisterActivity extends AppCompatActivity {
             }
         }
 
+        /**
+         * Traitement post requête Web avec la réponse renvoyée par l'API.
+         *
+         * @param result résultat de la requête Web Service
+         */
         @Override
         protected void onPostExecute(String result) {
             if(error){
@@ -132,6 +146,11 @@ public class RegisterActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Vérifier les données saisies au clavier.
+     *
+     * @return
+     */
     private int validInputData(){
         int error = 0;
         if(isEmpty(editTextName.getText().toString())){

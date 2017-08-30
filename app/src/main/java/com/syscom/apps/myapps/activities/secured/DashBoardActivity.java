@@ -11,10 +11,9 @@ import static com.syscom.apps.myapps.utilities.Constants.SESSION;
 import static com.syscom.apps.myapps.utilities.SharedPreferencesUtils.removeFromPrefs;
 
 /**
- * Dashboard activity
+ * Activité Dashboard
  * @author Eric LEGBA
  */
-@SuppressWarnings("squid:MaximumInheritanceDepth")
 public class DashBoardActivity extends SecuredActivity {
 
     private TextView textViewName = null;
@@ -28,7 +27,7 @@ public class DashBoardActivity extends SecuredActivity {
         textViewName = (TextView) findViewById(R.id.name);
         btnCreateAdvice = (Button)findViewById(R.id.btnCreateAdvice);
         btnLogout = (Button) findViewById(R.id.btnLogout);
-//        textViewName.setText(tokenDTO.getCustomerDTO().getName()); TODO
+        textViewName.setText(session.getTokenDTO().getCustomerDTO().getName());
         btnLogout.setOnClickListener(onclickBtnLogout);
         btnCreateAdvice.setOnClickListener(onclickBtnCreateAdvert);
 

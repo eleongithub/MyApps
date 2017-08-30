@@ -3,9 +3,9 @@ package com.syscom.apps.myapps.utilities;
 import android.util.Base64;
 
 /**
- * Created by Eric LEGBA on 26/02/17.
+ * Utilitaire pour encrypter/décrypter les données.
+ *
  */
-
 public class EncryptData {
 
     // Simple encryption !! To be improved

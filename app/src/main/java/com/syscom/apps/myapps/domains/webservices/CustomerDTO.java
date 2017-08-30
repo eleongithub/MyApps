@@ -12,23 +12,13 @@ import java.io.Serializable;
  */
 public class CustomerDTO implements Serializable{
 
-    @SerializedName("id")
     private Long id;
-
-    @SerializedName("name")
     private String name ;
-
-    @SerializedName("firstName")
     private String firstName;
-
-    @SerializedName("mail")
     private String mail;
-
-    @SerializedName("phone")
     private String phone;
-
-    @SerializedName("password")
     private String password;
+    private RoleDTO roleDTO;
 
     public CustomerDTO(){
 
@@ -46,8 +36,9 @@ public class CustomerDTO implements Serializable{
         private String name;
         private String firstName;
         private String mail;
-        private String password;
         private String phone;
+        private String password;
+        private RoleDTO roleDTO;
 
         public Builder id(Long id) {
             this.id = id;
@@ -79,7 +70,10 @@ public class CustomerDTO implements Serializable{
             return this;
         }
 
-
+        public Builder roleDTO(RoleDTO roleDTO) {
+            this.roleDTO = roleDTO;
+            return this;
+        }
         public CustomerDTO build() {
             return new CustomerDTO(this);
         }
@@ -99,6 +93,7 @@ public class CustomerDTO implements Serializable{
         mail = builder.mail;
         password = builder.password;
         phone = builder.phone;
+        roleDTO = builder.roleDTO;
     }
 
     public String getName() {
@@ -148,4 +143,13 @@ public class CustomerDTO implements Serializable{
     public void setId(Long id) {
         this.id = id;
     }
+
+    public RoleDTO getRoleDTO() {
+        return roleDTO;
+    }
+
+    public void setRoleDTO(RoleDTO roleDTO) {
+        this.roleDTO = roleDTO;
+    }
+
 }

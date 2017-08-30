@@ -4,10 +4,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * TODO : Commentaire pour expliquer ce que fait l'activité
+ * Utilitaire pour vérifier le format des adresses mail.
  *
  */
-
 public class MyAppsUtility {
 
     public static final String EMPTY = "";

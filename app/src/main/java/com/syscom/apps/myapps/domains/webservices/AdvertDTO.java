@@ -1,7 +1,5 @@
 package com.syscom.apps.myapps.domains.webservices;
 
-import com.google.gson.annotations.SerializedName;
-
 import java.io.Serializable;
 
 /**
@@ -12,16 +10,9 @@ import java.io.Serializable;
 
 public class AdvertDTO implements Serializable {
 
-    @SerializedName("title")
     private String title;
-
-    @SerializedName("description")
     private String description;
-
-    @SerializedName("price")
     private Float price;
-
-    @SerializedName("customerDTO")
     private CustomerDTO customerDTO;
 
     public AdvertDTO(String title, String description, Float price, CustomerDTO customerDTO){

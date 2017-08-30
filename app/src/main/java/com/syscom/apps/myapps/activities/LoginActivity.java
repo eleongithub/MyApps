@@ -34,12 +34,11 @@ import java.util.Collections;
 
 import static android.text.TextUtils.isEmpty;
 import static com.syscom.apps.myapps.utilities.Constants.SESSION;
-import static com.syscom.apps.myapps.utilities.Constants.TOKEN;
 import static com.syscom.apps.myapps.utilities.MyAppsUtility.isValideMail;
 import static com.syscom.apps.myapps.utilities.SharedPreferencesUtils.saveToSharedPreferences;
 
 /**
- * Login Activity
+ * Activité d'authentification de l'utilisateur
  *
  * @author Eric LEGBA
  */
@@ -104,9 +103,9 @@ public class LoginActivity extends AppCompatActivity {
         }
     };
 
-    // ***************************************
-    // Private classes
-    // ***************************************
+    /**
+     * Classe privée pour gérer les appels web Service API pour l'authentification.
+     */
     private class FetchLoginTask extends AsyncTask<Void, Void, TokenDTO> {
 
         private String username;
@@ -152,11 +151,8 @@ public class LoginActivity extends AppCompatActivity {
             }
             Session session = new Session(tokenDTO,true);
             Gson gson = new Gson();
-            String sessionValue = gson.toJson(session, Session.class);
 //          Save tokenDTO into SharedPreferences
-            saveToSharedPreferences(getApplicationContext(), TOKEN,gson.toJson(tokenDTO,TokenDTO.class));
-//          Save tokenDTO into SharedPreferences
-            saveToSharedPreferences(getApplicationContext(), SESSION,sessionValue);
+            saveToSharedPreferences(getApplicationContext(), SESSION,gson.toJson(session, Session.class));
 //          Start dashboard activity
             Intent dashboardIntenet = new Intent(getApplicationContext(),DashBoardActivity.class);
             startActivity(dashboardIntenet);
