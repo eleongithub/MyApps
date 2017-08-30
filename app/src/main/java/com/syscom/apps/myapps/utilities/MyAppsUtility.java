@@ -14,8 +14,6 @@ public class MyAppsUtility {
     }
 
     public static final String EMPTY = "";
-    private static Pattern pattern;
-    private static Matcher matcher;
 
     private static final String EMAIL_PATTERN =
             "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
@@ -29,8 +27,8 @@ public class MyAppsUtility {
      * @return true for Valid Email and false for Invalid Email
      */
     public static boolean isValideMail(String email) {
-        pattern = Pattern.compile(EMAIL_PATTERN);
-        matcher = pattern.matcher(email);
+        Pattern pattern = Pattern.compile(EMAIL_PATTERN);
+        Matcher matcher = pattern.matcher(email);
         return matcher.matches();
 
     }

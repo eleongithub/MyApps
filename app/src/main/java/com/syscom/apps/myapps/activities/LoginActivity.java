@@ -51,16 +51,13 @@ public class LoginActivity extends AppCompatActivity {
     private EditText editTextPassword = null;
     private TextView textViewLoginError = null;
     private TextView editTextTitleMsg = null;
-    private Button btnLogin = null;
-    private Button btnLoginRegister = null;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
-        btnLogin = (Button) findViewById(R.id.btnLogin);
-        btnLoginRegister = (Button) findViewById(R.id.btnLoginRegister);
+        Button btnLogin = (Button) findViewById(R.id.btnLogin);
+        Button btnLoginRegister = (Button) findViewById(R.id.btnLoginRegister);
         editTextMail = (EditText)findViewById(R.id.editTextMail);
         editTextPassword = (EditText)findViewById(R.id.editTextPassword);
         textViewLoginError = (TextView) findViewById(R.id.textViewLoginError);
@@ -100,6 +97,27 @@ public class LoginActivity extends AppCompatActivity {
                 return;
             }
             new FetchLoginTask().execute();
+
+
+        }
+
+        /**
+         * Verfication des saisies clavier
+         *
+         * @return {@link int}
+         */
+        private int validInputData(){
+            int error = 0;
+            if(!isValideMail(editTextMail.getText().toString())){
+                editTextMail.setError(getString(R.string.error_mail));
+                error++;
+            }
+
+            if(isEmpty(editTextPassword.getText().toString())){
+                editTextPassword.setError(getString(R.string.error_enter_password));
+                error++;
+            }
+            return error;
         }
     };
 
@@ -166,22 +184,4 @@ public class LoginActivity extends AppCompatActivity {
         Toast.makeText(this, message, Toast.LENGTH_LONG).show();
     }
 
-
-    /**
-     *
-     * @return {@link int}
-     */
-    private int validInputData(){
-        int error = 0;
-        if(!isValideMail(editTextMail.getText().toString())){
-            editTextMail.setError(getString(R.string.error_mail));
-            error++;
-        }
-
-        if(isEmpty(editTextPassword.getText().toString())){
-            editTextPassword.setError(getString(R.string.error_enter_password));
-            error++;
-        }
-        return error;
-    }
 }

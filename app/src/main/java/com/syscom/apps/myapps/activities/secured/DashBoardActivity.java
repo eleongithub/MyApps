@@ -14,22 +14,19 @@ import static com.syscom.apps.myapps.utilities.SharedPreferencesUtils.removeFrom
 
 /**
  * Activité Dashboard
+ *
  * @author Eric LEGBA
  */
 @SuppressWarnings("squid:MaximumInheritanceDepth")
 public class DashBoardActivity extends SecuredActivity {
 
-    private TextView textViewName = null;
-    private Button btnLogout = null;
-    private Button btnCreateAdvice = null;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dashboard);
-        textViewName = (TextView) findViewById(R.id.name);
-        btnCreateAdvice = (Button)findViewById(R.id.btnCreateAdvice);
-        btnLogout = (Button) findViewById(R.id.btnLogout);
+        TextView textViewName = (TextView) findViewById(R.id.name);
+        Button btnCreateAdvice = (Button)findViewById(R.id.btnCreateAdvice);
+        Button btnLogout = (Button) findViewById(R.id.btnLogout);
         textViewName.setText(session.getTokenDTO().getCustomerDTO().getName());
         btnLogout.setOnClickListener(onclickBtnLogout);
         btnCreateAdvice.setOnClickListener(onclickBtnCreateAdvert);

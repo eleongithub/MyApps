@@ -106,7 +106,7 @@ public class AdvertActivity extends SecuredActivity {
             requestHeaders.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
             requestHeaders.setContentType(MediaType.APPLICATION_JSON);
             requestHeaders.add(WebServiceUtils.AUTHORIZATION,session.getTokenDTO().getValue());
-            HttpEntity<AdvertDTO> requestEntity = new HttpEntity<AdvertDTO>(advertDTO, requestHeaders);
+            HttpEntity<AdvertDTO> requestEntity = new HttpEntity<>(advertDTO, requestHeaders);
             // Create a new RestTemplate instance
             RestTemplate restTemplate = new RestTemplate();
             restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());

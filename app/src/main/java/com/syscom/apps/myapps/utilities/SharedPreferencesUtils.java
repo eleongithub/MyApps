@@ -116,8 +116,7 @@ public class SharedPreferencesUtils {
      */
     public static boolean getBooleanFromSharedPreferences(Context context, String file, String key) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(file, Context.MODE_PRIVATE);
-        boolean value = sharedPreferences.getBoolean(encrypt(key),false);
-        return value;
+        return sharedPreferences.getBoolean(encrypt(key),false);
     }
 
     /**
