@@ -1,6 +1,5 @@
 package com.syscom.apps.myapps.activities.secured;
 
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,8 +10,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.syscom.apps.myapps.R;
-import com.syscom.apps.myapps.activities.LoginActivity;
-import com.syscom.apps.myapps.activities.RegisterActivity;
 import com.syscom.apps.myapps.domains.webservices.AdvertDTO;
 import com.syscom.apps.myapps.domains.webservices.CustomerDTO;
 import com.syscom.apps.myapps.utilities.WebServiceUtils;
@@ -62,6 +59,7 @@ public class AdvertActivity extends SecuredActivity {
         btnPublish = (Button) findViewById(R.id.btn_advert_publish);
         btnPublish.setOnClickListener(onclickBtnPublish);
         btnCancel = (Button) findViewById(R.id.btn_advert_cancel);
+        btnCancel.setOnClickListener(onclickBtnCancel);
     }
 
 
@@ -73,6 +71,13 @@ public class AdvertActivity extends SecuredActivity {
                 return;
             }
             new FetchAdvertTask().execute();
+        }
+    };
+
+    private View.OnClickListener onclickBtnCancel = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+
         }
     };
 
@@ -124,7 +129,7 @@ public class AdvertActivity extends SecuredActivity {
         @Override
         protected void onPostExecute(String result) {
             if(error){
-                System.out.println(result);
+                textViewError.setText(result);
                 return;
             }
             Toast.makeText(getApplicationContext(), "AdvertDTO is recorded. response is :"+result, Toast.LENGTH_LONG).show();

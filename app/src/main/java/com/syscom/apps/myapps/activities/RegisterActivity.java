@@ -9,10 +9,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+
 import com.syscom.apps.myapps.R;
 import com.syscom.apps.myapps.domains.webservices.CustomerDTO;
 import com.syscom.apps.myapps.utilities.MyAppsUtility;
 import com.syscom.apps.myapps.utilities.WebServiceUtils;
+
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -23,7 +25,9 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
+
 import java.util.Collections;
+
 import static android.text.TextUtils.isEmpty;
 
 /**

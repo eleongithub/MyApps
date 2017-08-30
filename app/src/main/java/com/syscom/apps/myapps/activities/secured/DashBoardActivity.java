@@ -5,8 +5,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+
 import com.syscom.apps.myapps.R;
 import com.syscom.apps.myapps.activities.LoginActivity;
+
 import static com.syscom.apps.myapps.utilities.Constants.SESSION;
 import static com.syscom.apps.myapps.utilities.SharedPreferencesUtils.removeFromPrefs;
 
@@ -14,6 +16,7 @@ import static com.syscom.apps.myapps.utilities.SharedPreferencesUtils.removeFrom
  * Activité Dashboard
  * @author Eric LEGBA
  */
+@SuppressWarnings("squid:MaximumInheritanceDepth")
 public class DashBoardActivity extends SecuredActivity {
 
     private TextView textViewName = null;

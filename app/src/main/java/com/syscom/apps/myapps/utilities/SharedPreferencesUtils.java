@@ -14,6 +14,10 @@ public class SharedPreferencesUtils {
 
     public static final String DEFAULT = "default";
 
+    private SharedPreferencesUtils() {
+        throw new IllegalAccessError("Utility class");
+    }
+
     /**
      * Enregistrer une donnée de type String.
      *

@@ -8,6 +8,10 @@ import android.util.Base64;
  */
 public class EncryptData {
 
+    private EncryptData() {
+        throw new IllegalAccessError("Utility class");
+    }
+
     // Simple encryption !! To be improved
     public static String encrypt(String input) {
 

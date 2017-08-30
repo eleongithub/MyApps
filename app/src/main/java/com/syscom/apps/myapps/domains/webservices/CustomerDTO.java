@@ -1,7 +1,5 @@
 package com.syscom.apps.myapps.domains.webservices;
 
-import com.google.gson.annotations.SerializedName;
-
 import java.io.Serializable;
 
 /**

@@ -1,7 +1,5 @@
 package com.syscom.apps.myapps.domains.webservices;
 
-import java.io.Serializable;
-
 /**
  * Classe représentant les données d'un jeton d'authentification
  * Created by Eric LEGBA on 26/02/17.
